@@ -3,7 +3,7 @@ using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.DTOs.Auth;
 using SkillForge.Domain.Entities;
 
-namespace SkillForge.Application.Services
+namespace SkillForge.Application.Services.Auth
 {
     public class AuthService : IAuthService
     {
