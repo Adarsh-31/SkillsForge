@@ -1,6 +1,6 @@
 ﻿using SkillForge.Application.DTOs.Auth;
 
-namespace SkillForge.Application.Services
+namespace SkillForge.Application.Services.Auth
 {
     public interface IAuthService
     {
