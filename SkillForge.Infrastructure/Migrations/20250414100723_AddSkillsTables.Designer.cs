@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SkillForge.Infrastructure.Persistence;
 
@@ -11,9 +12,11 @@ using SkillForge.Infrastructure.Persistence;
 namespace SkillForge.Infrastructure.Migrations
 {
     [DbContext(typeof(SkillForgeDbContext))]
-    partial class SkillForgeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250414100723_AddSkillsTables")]
+    partial class AddSkillsTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +82,7 @@ namespace SkillForge.Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("11111111-1111-1111-1111-111111111111"),
-                            CreatedAt = new DateTime(2025, 4, 14, 10, 7, 22, 588, DateTimeKind.Utc),
+                            CreatedAt = new DateTime(2025, 4, 14, 10, 7, 22, 588, DateTimeKind.Utc).AddTicks(734),
                             Email = "admin@skillforge.com",
                             FullName = "Admin User",
                             PasswordHash = "$2a$12$uRghXwlZ16cOP/HxJ8eV8OR4R9LJgra5NwAN4SDaG5d/pIymxswMu",

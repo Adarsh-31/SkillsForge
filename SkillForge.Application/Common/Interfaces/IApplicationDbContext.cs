@@ -11,6 +11,7 @@ namespace SkillForge.Application.Common.Interfaces
     public interface IApplicationDbContext
     {
         DbSet<User> Users { get; }
+        DbSet<Skill> Skills { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
