@@ -5,7 +5,7 @@ using SkillForge.Domain.Entities;
 
 namespace SkillForge.Application.Services.Courses
 {
-    public class CourseService
+    public class CourseService : ICourseService
     {
         private readonly IApplicationDbContext _context;
 
