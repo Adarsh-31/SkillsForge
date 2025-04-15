@@ -10,11 +10,26 @@ public class SkillForgeDbContext : DbContext,IApplicationDbContext
 
     public DbSet<User> Users => Set<User>();
     public DbSet<Skill> Skills => Set<Skill>();
+    public DbSet<Course> Courses => Set<Course>();
+    public DbSet<CourseSkill> CourseSkills => Set<CourseSkill>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<User>().HasIndex(u => u.Email).IsUnique();
+
+        modelBuilder.Entity<CourseSkill>()
+        .HasKey(cs => new { cs.CourseId, cs.SkillId });
+
+        modelBuilder.Entity<CourseSkill>()
+            .HasOne(cs => cs.Course)
+            .WithMany(c => c.CourseSkills)
+            .HasForeignKey(cs => cs.CourseId);
+
+        modelBuilder.Entity<CourseSkill>()
+            .HasOne(cs => cs.Skill)
+            .WithMany(s => s.CourseSkills)
+            .HasForeignKey(cs => cs.SkillId);
 
         modelBuilder.Entity<User>().HasData(new User
         {

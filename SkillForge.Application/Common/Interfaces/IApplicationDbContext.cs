@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
 using SkillForge.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
 
 namespace SkillForge.Application.Common.Interfaces
 {
@@ -12,6 +7,8 @@ namespace SkillForge.Application.Common.Interfaces
     {
         DbSet<User> Users { get; }
         DbSet<Skill> Skills { get; }
+        DbSet<Course> Courses { get; }
+        DbSet<CourseSkill> CourseSkills { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
