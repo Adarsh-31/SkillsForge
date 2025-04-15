@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.Services.Auth;
+using SkillForge.Application.Services.Courses;
 using SkillForge.Application.Users;
 using SkillForge.Infrastructure.Persistence;
 using SkillForge.Infrastructure.Services;
@@ -21,6 +22,8 @@ builder.Services.AddScoped<IApplicationDbContext>(provider =>
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICourseSkillService, CourseSkillService>();
+builder.Services.AddScoped<ICourseService, CourseService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
