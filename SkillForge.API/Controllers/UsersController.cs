@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkillForge.Application.DTOs.User;
-using SkillForge.Application.Users;
+using SkillForge.Application.Services.Users;
 
 namespace SkillForge.API.Controllers
 {

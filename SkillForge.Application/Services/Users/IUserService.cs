@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SkillForge.Application.DTOs.User;
 
-namespace SkillForge.Application.Users
+namespace SkillForge.Application.Services.Users
 {
     public interface IUserService
     {
