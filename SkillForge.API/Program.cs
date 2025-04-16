@@ -5,7 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.Services.Auth;
 using SkillForge.Application.Services.Courses;
-using SkillForge.Application.Users;
+using SkillForge.Application.Services.Users;
 using SkillForge.Infrastructure.Persistence;
 using SkillForge.Infrastructure.Services;
 
