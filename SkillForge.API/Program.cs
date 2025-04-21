@@ -6,6 +6,7 @@ using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.Services.Auth;
 using SkillForge.Application.Services.Courses;
 using SkillForge.Application.Services.Users;
+using SkillForge.Application.Users;
 using SkillForge.Infrastructure.Persistence;
 using SkillForge.Infrastructure.Services;
 
@@ -40,6 +41,19 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddOpenApi();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:4200") 
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
@@ -89,6 +103,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwagger();
 app.UseSwaggerUI();
+
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();

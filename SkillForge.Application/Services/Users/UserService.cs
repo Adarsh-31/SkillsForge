@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.DTOs.User;
+using SkillForge.Application.Services.Users;
 using SkillForge.Domain.Entities;
 
 namespace SkillForge.Application.Users

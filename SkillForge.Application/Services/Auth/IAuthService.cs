@@ -6,5 +6,6 @@ namespace SkillForge.Application.Services.Auth
     {
         Task<AuthResponse> RegisterAsync(RegisterRequest request);
         Task<AuthResponse> LoginAsync(LoginRequest request);
+        Task<bool> ChangePasswordAsync(ChangePasswordRequest request);
     }
 }
