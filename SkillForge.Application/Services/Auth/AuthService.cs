@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using BCrypt.Net;
+using Microsoft.EntityFrameworkCore;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.DTOs.Auth;
 using SkillForge.Domain.Entities;
@@ -55,6 +56,21 @@ namespace SkillForge.Application.Services.Auth
                 Email = user.Email,
                 Token = token
             };
+        }
+
+        public async Task<bool> ChangePasswordAsync(ChangePasswordRequest request)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+            if(user == null)
+                return false;
+
+            var isValidPassword = BCrypt.Net.BCrypt.Verify(request.CurrentPassword, user.PasswordHash);
+            if(!isValidPassword) return false;
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(request.NewPassword);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace SkillForge.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [AllowAnonymous]
+    
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -17,6 +17,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)
         {
             var response = await _authService.RegisterAsync(request);
@@ -24,10 +25,22 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var response = await _authService.LoginAsync(request);
             return Ok(response);
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
+        {
+            var result = await _authService.ChangePasswordAsync(request);
+            if (!result)
+                return BadRequest("Invalid current password. ");
+
+            return Ok(new { message = "Password Changed Successfully" });
         }
     }
 }
