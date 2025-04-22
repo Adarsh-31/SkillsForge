@@ -58,9 +58,9 @@ namespace SkillForge.Application.Services.Auth
             };
         }
 
-        public async Task<bool> ChangePasswordAsync(ChangePasswordRequest request)
+        public async Task<bool> ChangePasswordAsync(Guid userId, ChangePasswordRequest request)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == request.UserId);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId);
             if(user == null)
                 return false;
 
