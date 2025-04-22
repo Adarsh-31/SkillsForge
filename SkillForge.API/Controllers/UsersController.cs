@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkillForge.Application.DTOs.User;
@@ -27,6 +28,21 @@ namespace SkillForge.API.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserRequest request)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUserRole = User.FindFirstValue(ClaimTypes.Role);
+
+            if (currentUserId is null || currentUserRole is null)
+                return Unauthorized();
+
+            var isAdmin = currentUserRole == "Admin";
+            var isSelf = id.ToString() == currentUserId;
+
+            if (!isAdmin && request.Role != null)
+                return Forbid("Users cannot change role.");
+
+            if (!isAdmin && !isSelf)
+                return Forbid("Users cannot edit other users.");
+
             var success = await _userService.UpdateUserAsync(id, request);
             if (!success) return NotFound();
             return NoContent();
@@ -49,9 +65,9 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> GetAllUsers([FromQuery] string? search, [FromQuery] int page = 1, [FromQuery] int size = 10)
         {
-            var users = await _userService.GetAllUsersAsync();
+            var users = await _userService.GetAllUsersAsync(search, page, size);
             return Ok(users);
         }
     }

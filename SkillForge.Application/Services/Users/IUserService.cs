@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SkillForge.Application.DTOs.Common;
 using SkillForge.Application.DTOs.User;
 
 namespace SkillForge.Application.Services.Users
@@ -13,6 +14,6 @@ namespace SkillForge.Application.Services.Users
         Task<bool> UpdateUserAsync(Guid id, UpdateUserRequest request);
         Task<bool> DeleteUserAsync(Guid id);
         Task<UserDto?> GetUserByIdAsync(Guid id);
-        Task<List<UserDto>> GetAllUsersAsync();
+        Task<PagedResult<UserDto>> GetAllUsersAsync(string? search, int page, int size);
     }
 }

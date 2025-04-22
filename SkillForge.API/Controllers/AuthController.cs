@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillForge.Application.DTOs.Auth;
 using SkillForge.Application.Services.Auth;
@@ -36,7 +37,13 @@ namespace SkillForge.API.Controllers
         [Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordRequest request)
         {
-            var result = await _authService.ChangePasswordAsync(request);
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if(userIdString == null || !Guid.TryParse(userIdString, out var userId)) {
+                return Unauthorized();
+            }
+
+            var result = await _authService.ChangePasswordAsync(userId, request);
             if (!result)
                 return BadRequest("Invalid current password. ");
 
