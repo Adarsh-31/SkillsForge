@@ -5,10 +5,14 @@ using Microsoft.IdentityModel.Tokens;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.Services.Auth;
 using SkillForge.Application.Services.Courses;
+using SkillForge.Application.Services.Lessons;
+using SkillForge.Application.Services.Modules;
 using SkillForge.Application.Services.Users;
 using SkillForge.Application.Users;
 using SkillForge.Infrastructure.Persistence;
 using SkillForge.Infrastructure.Services;
+using SkillForge.Infrastructure.Services.Lessons;
+using SkillForge.Infrastructure.Services.Modules;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +29,9 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseSkillService, CourseSkillService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<IModuleService, ModuleService>();
+builder.Services.AddScoped<ILessonService, LessonService>();
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -94,12 +101,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();             
     app.UseSwaggerUI();          
 }
-
-// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.MapOpenApi();
-//}
 
 app.UseSwagger();
 app.UseSwaggerUI();
