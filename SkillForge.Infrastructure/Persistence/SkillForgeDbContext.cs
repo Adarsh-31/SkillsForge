@@ -4,7 +4,7 @@ using SkillForge.Domain.Entities;
 
 namespace SkillForge.Infrastructure.Persistence;
 
-public class SkillForgeDbContext : DbContext,IApplicationDbContext
+public class SkillForgeDbContext : DbContext, IApplicationDbContext
 {
     public SkillForgeDbContext(DbContextOptions<SkillForgeDbContext> options) : base(options) { }
 
@@ -12,6 +12,9 @@ public class SkillForgeDbContext : DbContext,IApplicationDbContext
     public DbSet<Skill> Skills => Set<Skill>();
     public DbSet<Course> Courses => Set<Course>();
     public DbSet<CourseSkill> CourseSkills => Set<CourseSkill>();
+    public DbSet<Module> Modules => Set<Module>();
+    public DbSet<Lesson> Lessons => Set<Lesson>();
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,6 +33,19 @@ public class SkillForgeDbContext : DbContext,IApplicationDbContext
             .HasOne(cs => cs.Skill)
             .WithMany(s => s.CourseSkills)
             .HasForeignKey(cs => cs.SkillId);
+
+        modelBuilder.Entity<Course>()
+            .HasMany(c => c.Modules)
+            .WithOne(m => m.Course)
+            .HasForeignKey(m => m.CourseId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<Module>()
+            .HasMany(m => m.Lessons)
+            .WithOne(l => l.Module)
+            .HasForeignKey(l => l.ModuleId)
+            .OnDelete(DeleteBehavior.Cascade);
+
 
         modelBuilder.Entity<User>().HasData(new User
         {
