@@ -14,7 +14,7 @@ public class SkillForgeDbContext : DbContext, IApplicationDbContext
     public DbSet<CourseSkill> CourseSkills => Set<CourseSkill>();
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Lesson> Lessons => Set<Lesson>();
-
+    public DbSet<UserCourse> UserCourses => Set<UserCourse>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -45,6 +45,19 @@ public class SkillForgeDbContext : DbContext, IApplicationDbContext
             .WithOne(l => l.Module)
             .HasForeignKey(l => l.ModuleId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<UserCourse>()
+            .HasKey(uc => new { uc.UserId, uc.CourseId });
+
+        modelBuilder.Entity<UserCourse>()
+            .HasOne(uc => uc.User)
+            .WithMany(u => u.Enrollments)
+            .HasForeignKey(uc => uc.UserId);
+
+        modelBuilder.Entity<UserCourse>()
+            .HasOne(uc => uc.Course)
+            .WithMany(c => c.Enrollments)
+            .HasForeignKey(uc => uc.CourseId);
 
 
         modelBuilder.Entity<User>().HasData(new User
