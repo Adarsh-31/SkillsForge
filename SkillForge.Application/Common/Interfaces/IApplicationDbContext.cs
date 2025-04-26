@@ -11,6 +11,7 @@ namespace SkillForge.Application.Common.Interfaces
         DbSet<CourseSkill> CourseSkills { get; }
         DbSet<Module> Modules { get; }
         DbSet<Lesson> Lessons { get; }
+        DbSet<UserCourse> UserCourses { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }
