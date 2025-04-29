@@ -7,7 +7,7 @@ namespace SkillForge.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class SkillsController : ControllerBase
     {
         private readonly ISkillService _skillService;
@@ -18,6 +18,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSkill([FromBody] CreateSkillRequest request)
         {
             var id = await _skillService.CreateSkillAsync(request);
@@ -25,6 +26,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateSkill(Guid id, [FromBody] UpdateSkillRequest request)
         {
             var success = await _skillService.UpdateSkillAsync(id, request);
@@ -33,6 +35,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteSkill(Guid id)
         {
             var success = await _skillService.DeleteSkillAsync(id);
