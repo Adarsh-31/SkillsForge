@@ -15,6 +15,7 @@ public class SkillForgeDbContext : DbContext, IApplicationDbContext
     public DbSet<Module> Modules => Set<Module>();
     public DbSet<Lesson> Lessons => Set<Lesson>();
     public DbSet<UserCourse> UserCourses => Set<UserCourse>();
+    public DbSet<UserLesson> UserLessons => Set<UserLesson>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

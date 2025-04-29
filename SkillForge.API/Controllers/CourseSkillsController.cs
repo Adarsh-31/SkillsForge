@@ -8,7 +8,7 @@ namespace SkillForge.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class CourseSkillsController : ControllerBase
     {
         private readonly ICourseSkillService _courseSkillService;
@@ -19,6 +19,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost("add")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddSkillToCourse([FromBody] AddCourseSkillRequest request)
         {
             await _courseSkillService.AddSkillToCourseAsync(request);
@@ -26,6 +27,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost("remove")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveSkillFromCourse([FromBody] RemoveCourseSkillRequest request)
         {
             await _courseSkillService.RemoveSkillFromCourseAsync(request);
@@ -33,6 +35,7 @@ namespace SkillForge.API.Controllers
         }
 
         [HttpPost("assign")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AssignSkillsToCourse([FromBody] AssignSkillsToCourseRequest request)
         {
             await _courseSkillService.AssignSkillsToCourseAsync(request);

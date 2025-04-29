@@ -7,7 +7,7 @@ namespace SkillForge.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin")]
+[Authorize]
 public class CourseModulesController : ControllerBase
 {
     private readonly IModuleService _moduleService;
@@ -18,6 +18,7 @@ public class CourseModulesController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateModule([FromBody] CreateModuleRequest request)
     {
         var id = await _moduleService.CreateModuleAsync(request);
@@ -25,6 +26,7 @@ public class CourseModulesController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateModule(Guid id, [FromBody] UpdateModuleRequest request)
     {
         var success = await _moduleService.UpdateModuleAsync(id, request);
@@ -33,6 +35,7 @@ public class CourseModulesController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteModule(Guid id)
     {
         var success = await _moduleService.DeleteModuleAsync(id);

@@ -7,7 +7,7 @@ namespace SkillForge.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-[Authorize(Roles = "Admin")]
+[Authorize]
 public class LessonsController : ControllerBase
 {
     private readonly ILessonService _lessonService;
@@ -18,6 +18,7 @@ public class LessonsController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> CreateLesson([FromBody] CreateLessonRequest request)
     {
         var id = await _lessonService.CreateLessonAsync(request);
@@ -25,6 +26,7 @@ public class LessonsController : ControllerBase
     }
 
     [HttpPut("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> UpdateLesson(Guid id, [FromBody] UpdateLessonRequest request)
     {
         var success = await _lessonService.UpdateLessonAsync(id, request);
@@ -33,6 +35,7 @@ public class LessonsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteLesson(Guid id)
     {
         var success = await _lessonService.DeleteLessonAsync(id);

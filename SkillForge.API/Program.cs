@@ -7,6 +7,7 @@ using SkillForge.Application.Services.Auth;
 using SkillForge.Application.Services.Courses;
 using SkillForge.Application.Services.Lessons;
 using SkillForge.Application.Services.Modules;
+using SkillForge.Application.Services.UserLesson;
 using SkillForge.Application.Services.Users;
 using SkillForge.Application.Users;
 using SkillForge.Infrastructure.Persistence;
@@ -24,6 +25,9 @@ builder.Services.AddDbContext<SkillForgeDbContext>(options =>
 builder.Services.AddScoped<IApplicationDbContext>(provider =>
     provider.GetRequiredService<SkillForgeDbContext>());
 
+builder.Services.AddHttpContextAccessor();
+
+
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -32,6 +36,7 @@ builder.Services.AddScoped<ICourseService, CourseService>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IUserCourseService, UserCourseService>();
+builder.Services.AddScoped<IUserLessonService, UserLessonService>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
