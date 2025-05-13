@@ -7,6 +7,8 @@ using SkillForge.Application.Services.Auth;
 using SkillForge.Application.Services.Courses;
 using SkillForge.Application.Services.Lessons;
 using SkillForge.Application.Services.Modules;
+using SkillForge.Application.Services.Skills;
+using SkillForge.Application.Services.Tags;
 using SkillForge.Application.Services.UserLesson;
 using SkillForge.Application.Services.Users;
 using SkillForge.Application.Users;
@@ -33,10 +35,12 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICourseSkillService, CourseSkillService>();
 builder.Services.AddScoped<ICourseService, CourseService>();
+builder.Services.AddScoped<ISkillService, SkillService>();
 builder.Services.AddScoped<IModuleService, ModuleService>();
 builder.Services.AddScoped<ILessonService, LessonService>();
 builder.Services.AddScoped<IUserCourseService, UserCourseService>();
 builder.Services.AddScoped<IUserLessonService, UserLessonService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

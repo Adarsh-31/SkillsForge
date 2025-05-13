@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Reflection;
+using Microsoft.EntityFrameworkCore;
 using SkillForge.Application.Common.Interfaces;
 using SkillForge.Application.DTOs.Course;
+using SkillForge.Application.DTOs.Lesson;
+using SkillForge.Application.DTOs.Tag;
 using SkillForge.Domain.Entities;
 
 namespace SkillForge.Application.Services.Courses
@@ -72,14 +75,77 @@ namespace SkillForge.Application.Services.Courses
         public async Task<List<CourseDto>> GetAllCoursesAsync()
         {
             return await _context.Courses
+                .Include(c => c.CourseTags)
+                    .ThenInclude(ct => ct.Tag)
                 .Select(course => new CourseDto
                 {
                     Id = course.Id,
                     Title = course.Title,
                     Description = course.Description,
-                    CreatedAt = course.CreatedAt
+                    CreatedAt = course.CreatedAt,
+                    Tags = course.CourseTags.Select(ct => new TagDto
+                    {
+                        Id = ct.Tag.Id,
+                        Name = ct.Tag.Name,
+                        Description = ct.Tag.Description
+                    }).ToList()
                 })
                 .ToListAsync();
         }
+
+        public async Task<List<CourseDto>> GetCoursesByTagAsync(Guid tagId)
+        {
+            return await _context.Courses
+                .Where(c => c.CourseTags.Any(ct => ct.TagId == tagId))
+                .Include(c => c.CourseTags)
+                    .ThenInclude(ct => ct.Tag)
+                .Select(c => new CourseDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Description = c.Description,
+                    CreatedAt = c.CreatedAt,
+                    Tags = c.CourseTags.Select(ct => new TagDto
+                    {
+                        Id = ct.Tag.Id,
+                        Name = ct.Tag.Name,
+                        Description = ct.Tag.Description
+                    }).ToList()
+                })
+                .ToListAsync();
+        }
+
+        public async Task<List<CourseDto>> GetRelatedCoursesAsync(Guid courseId)
+        {
+            // Step 1: Get all TagIds assigned to the current course
+            var tagIds = await _context.CourseTags
+                .Where(ct => ct.CourseId == courseId)
+                .Select(ct => ct.TagId)
+                .ToListAsync();
+
+            if (!tagIds.Any()) return new List<CourseDto>();
+
+            // Step 2: Get CourseIds of other courses sharing those tags
+            var relatedCourseIds = await _context.CourseTags
+                .Where(ct => tagIds.Contains(ct.TagId) && ct.CourseId != courseId)
+                .Select(ct => ct.CourseId)
+                .Distinct()
+                .ToListAsync();
+
+            // Step 3: Load related course details
+            var relatedCourses = await _context.Courses
+                .Where(c => relatedCourseIds.Contains(c.Id))
+                .Select(c => new CourseDto
+                {
+                    Id = c.Id,
+                    Title = c.Title,
+                    Description = c.Description,
+                    CreatedAt = c.CreatedAt
+                })
+                .ToListAsync();
+
+            return relatedCourses;
+        }
+
     }
 }
