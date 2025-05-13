@@ -9,5 +9,8 @@ namespace SkillForge.Application.Services.Courses
         Task<bool> DeleteCourseAsync(Guid id);
         Task<CourseDto?> GetCourseByIdAsync(Guid id);
         Task<List<CourseDto>> GetAllCoursesAsync();
+        Task<List<CourseDto>> GetCoursesByTagAsync(Guid tagId);
+        Task<List<CourseDto>> GetRelatedCoursesAsync(Guid courseId);
+
     }
 }

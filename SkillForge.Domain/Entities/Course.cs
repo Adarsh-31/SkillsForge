@@ -9,5 +9,6 @@
         public ICollection<CourseSkill> CourseSkills { get; set; } = new List<CourseSkill>();
         public ICollection<Module> Modules { get; set; } = new List<Module>();
         public ICollection<UserCourse> Enrollments { get; set; } = new List<UserCourse>();
+        public ICollection<CourseTag> CourseTags { get; set; } = new List<CourseTag>();
     }
 }

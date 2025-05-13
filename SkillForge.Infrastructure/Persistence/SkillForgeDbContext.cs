@@ -16,6 +16,8 @@ public class SkillForgeDbContext : DbContext, IApplicationDbContext
     public DbSet<Lesson> Lessons => Set<Lesson>();
     public DbSet<UserCourse> UserCourses => Set<UserCourse>();
     public DbSet<UserLesson> UserLessons => Set<UserLesson>();
+    public DbSet<Tag> Tags => Set<Tag>();
+    public DbSet<CourseTag> CourseTags => Set<CourseTag>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -59,6 +61,19 @@ public class SkillForgeDbContext : DbContext, IApplicationDbContext
             .HasOne(uc => uc.Course)
             .WithMany(c => c.Enrollments)
             .HasForeignKey(uc => uc.CourseId);
+
+        modelBuilder.Entity<CourseTag>()
+            .HasKey(ct => new { ct.CourseId, ct.TagId });
+
+        modelBuilder.Entity<CourseTag>()
+            .HasOne(ct => ct.Course)
+            .WithMany(c => c.CourseTags)
+            .HasForeignKey(ct => ct.CourseId);
+
+        modelBuilder.Entity<CourseTag>()
+            .HasOne(ct => ct.Tag)
+            .WithMany(t => t.CourseTags)
+            .HasForeignKey(ct => ct.TagId);
 
 
         modelBuilder.Entity<User>().HasData(new User

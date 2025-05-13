@@ -57,5 +57,20 @@ namespace SkillForge.API.Controllers
             var courses = await _courseService.GetAllCoursesAsync();
             return Ok(courses);
         }
+
+        [HttpGet("by-tag/{tagId}")]
+        public async Task<IActionResult> GetCoursesByTag(Guid tagId)
+        {
+            var courses = await _courseService.GetCoursesByTagAsync(tagId);
+            return Ok(courses);
+        }
+
+        [HttpGet("{id}/related")]
+        public async Task<IActionResult> GetRelatedCourses(Guid id)
+        {
+            var courses = await _courseService.GetRelatedCoursesAsync(id);
+            return Ok(courses);
+        }
+
     }
 }
